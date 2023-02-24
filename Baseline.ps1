@@ -14,5 +14,38 @@ Configuration Baseline {
             Name = $VMHost
             PowerPolicy = 'HighPerformance'
         }
+
+        VMHostNtpSettings Ntp {
+            Name = $VMHost
+            NtpServer = 'pool.ntp.org'
+            NtpServicePolicy = 'Automatic'
+        }
+
+        VMHostService NtpService {
+            Name = $VMHost
+            Key = 'ntpd'
+            Running = $true
+        }
+
+        VMHostService SSH {
+            Name = $VMHost
+            Key = 'TSM-SSH'
+            Running = $true
+        }
+
+        VMHostAdvancedSettings VMHostAdvancedSettings {
+            Name = $VMHost
+            AdvancedSettings = @{
+                'UserVars.ESXiShellTimeOut' = 1800
+                'UserVars.HostClientCEIPOptIn' = 2
+                'UserVars.ProductLockerLocation' = '/locker/packages/vmtoolsRepo/'
+                'Disk.QFullSampleSize' = 32
+            }
+        }
+
+        VMHostSyslog VMHostSyslog {
+            Name = $VMHost
+            Loghost = 'udp://syslog.contoso.com:514'
+        }
     }
 }
